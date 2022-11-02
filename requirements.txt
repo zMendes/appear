@@ -1,0 +1,7 @@
+db-sqlite3
+tensorflow
+keras
+opencv-python
+matplotlib
+pillow
+imutils
