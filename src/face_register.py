@@ -13,13 +13,15 @@ import io
 
 class FaceRegister(FaceModel):
     def __init__(self):
-        self.camera = cv2.VideoCapture(0)
+        self.camera = cv2.VideoCapture(4)
         sqlite3.register_adapter(np.ndarray, adapt_array)
         sqlite3.register_converter("array", convert_array)
         self.con = sqlite3.connect("data.db", detect_types=sqlite3.PARSE_DECLTYPES)
+        #self.con.execute("DROP TABLE FACES")
         self.con.execute(
             f"CREATE TABLE IF NOT EXISTS FACES(name TEXT NOT NULL, img array NOT NULL)"
         )
+
 
     def register(self, name):
         vgg_face_descriptor = self.setupModel()

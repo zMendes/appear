@@ -5,11 +5,12 @@ from utils import *
 from face_model import FaceModel
 from face_finder import FaceFinder
 import sqlite3
+import math
 
 
 class PresenceManager:
     def __init__(self):
-        self.camera = cv2.VideoCapture(0)
+        self.camera = cv2.VideoCapture(4)
 
     def run(self):
         ff = FaceFinder()
@@ -58,14 +59,25 @@ class FaceMatcher(FaceModel):
         sqlite3.register_adapter(np.ndarray, adapt_array)
         sqlite3.register_converter("array", convert_array)
         self.con = sqlite3.connect("data.db", detect_types=sqlite3.PARSE_DECLTYPES)
-
-    def find_in_db(self, img):
-        img_representation = self.model.predict(preprocess((img)))[0, :]
         faces = self.con.execute("SELECT * FROM FACES")
-        for (name, representation) in faces.fetchall():
-            if self.match(img_representation, representation[0]):
-                return name
-        return "?"
+        self.faces = faces.fetchall()
+    def find_in_db(self, img):
+        similarity = []
+        img_representation = self.model.predict(preprocess((img)))[0, :]
+        s_max = math.inf
+        name_final = ""
+        for (name, representation) in self.faces:
+            similarity.append((name,self.match(img_representation, representation[0])))
+        for person in similarity:
+            if person[1] < s_max:
+                name_final = person[0]
+                s_max = person[1]
+        #if s_max>45:
+        #    return "?"
+        
+
+
+        return name_final
 
     def match(self, img1_representation, img2_representation):
 
@@ -75,7 +87,7 @@ class FaceMatcher(FaceModel):
         euclidean_distance = findEuclideanDistance(
             img1_representation, img2_representation
         )
-
-        if cosine_similarity < self.epsilon:
-            return True
-        return False
+        
+        return euclidean_distance * cosine_similarity#< self.epsilon:
+            #return True
+        #return False
