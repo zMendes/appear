@@ -5,6 +5,9 @@ class TelegramHandler:
         self.token = TELEGRAM_TOKEN
         self.chat_id = CHAT_ID
 
-    def send_message(self, message):
+    def send_message(self, message, chat_id):
         url = "https://api.telegram.org/bot{}/sendMessage?chat_id=-{}&text={}".format(self.token, self.chat_id, message)
-        return requests.get(url).status_code
+        response = requests.post(
+            url='https://api.telegram.org/bot{0}/sendMessage'.format(self.token),
+            data={'chat_id': chat_id, 'text': message}
+            )

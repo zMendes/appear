@@ -13,17 +13,17 @@ import io
 
 class FaceRegister(FaceModel):
     def __init__(self):
-        self.camera = cv2.VideoCapture(4)
+        self.camera = cv2.VideoCapture(0)
         sqlite3.register_adapter(np.ndarray, adapt_array)
         sqlite3.register_converter("array", convert_array)
         self.con = sqlite3.connect("data.db", detect_types=sqlite3.PARSE_DECLTYPES)
         #self.con.execute("DROP TABLE FACES")
         self.con.execute(
-            f"CREATE TABLE IF NOT EXISTS FACES(name TEXT NOT NULL, img array NOT NULL)"
+            f"CREATE TABLE IF NOT EXISTS FACES(name TEXT NOT NULL, code TEXT NOT NULL, phone_number TEXT, chatID TEXT NOT NULL, img array NOT NULL)"
         )
 
 
-    def register(self, name):
+    def register(self, name, code, phone_number, chat_id):
         vgg_face_descriptor = self.setupModel()
         ff = FaceFinder()
         found_face = False
@@ -44,6 +44,6 @@ class FaceRegister(FaceModel):
                 face = image[startY:endY, startX:endX]
                 face_color = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
         img_representation = vgg_face_descriptor.predict(preprocess(face_color))
-        params = (name, img_representation)
-        self.con.execute("INSERT INTO FACES VALUES (?, ?)", params)
+        params = (name, code, phone_number, chat_id, img_representation)
+        self.con.execute("INSERT INTO FACES VALUES (?, ?, ?, ?, ?)", params)
         self.con.commit()
