@@ -1,2 +1,13 @@
+/src/env.py
+/src/test_telegram.py
+/src/test_email.py
+/src/sqlite3_handler.py
+/src/email_handler.py
+
+test.png
+*.csv
+*__pycache__/
+
+/src/model/
 /.next
 .next

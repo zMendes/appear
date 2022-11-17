@@ -16,8 +16,8 @@ import sqlite3
 
 class FaceFinder:
     def __init__(self):
-        self.prototxt = "model/deploy.prototxt"
-        self.model = "model/res10_300x300_ssd_iter_140000.caffemodel"
+        self.prototxt = "src/model/deploy.prototxt"
+        self.model = "src/model/res10_300x300_ssd_iter_140000.caffemodel"
         self.net = cv2.dnn.readNetFromCaffe(self.prototxt, self.model)
 
     def find_faces(self, image):

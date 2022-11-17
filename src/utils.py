@@ -33,7 +33,6 @@ def adapt_array(arr):
     """
     http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
     """
-    print("iu")
     out = io.BytesIO()
     np.save(out, arr)
     out.seek(0)
