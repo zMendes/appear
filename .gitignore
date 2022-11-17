@@ -9,3 +9,5 @@ test.png
 *__pycache__/
 
 /src/model/
+/.next
+.next
