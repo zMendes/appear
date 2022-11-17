@@ -13,7 +13,7 @@ from keras.layers import (
 class FaceModel:
     def setupModel(self):
         def loadWights(model):
-            model.load_weights("model/vgg_face_weights.h5")
+            model.load_weights("src/model/vgg_face_weights.h5")
             return model
 
         def buildModel():

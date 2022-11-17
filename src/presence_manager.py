@@ -43,8 +43,10 @@ class PresenceManager:
                     out = fm.find_in_db(face_color)
                     if out != None:
                         name,code,phone_number, chat_id = out
+                        print("name: ", name)	
                         presence_list.append(Presence(name, code, phone_number, chat_id))
-                        self.telegram.send_message(f"Recognized {name} on {presence_list[-1].timestamp}", chat_id)
+                        print("Sending telegram message")
+                        self.telegram.send_message(f"Recognized {name} on {presence_list[-1].timestamp}", chat_id=chat_id)
 
                     else:
                         print("Person not in database")
