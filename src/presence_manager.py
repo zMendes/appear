@@ -15,11 +15,11 @@ class PresenceManager:
     def __init__(self):
         self.camera = cv2.VideoCapture(0)
         self.telegram = TelegramHandler()
+        self.image_bus_path = "src/image_bus/"
 
 
     def run(self, file_path):
         ff = FaceFinder()
-        fm = FaceMatcher()
         presence_list = []
         last = 0
         while True:
@@ -39,18 +39,7 @@ class PresenceManager:
                     y = startY - 10 if startY - 10 > 10 else startY + 10
                     cropped = image[startY:endY, startX:endX]
                     face_color = cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB)
-                    cv2.imwrite("test.png", face_color)
-                    out = fm.find_in_db(face_color)
-                    if out != None:
-                        name,code,phone_number, chat_id = out
-                        print("name: ", name)	
-                        presence_list.append(Presence(name, code, phone_number, chat_id))
-                        print("Sending telegram message")
-                        self.telegram.send_message(f"Recognized {name} on {presence_list[-1].timestamp}", chat_id=chat_id)
-
-                    else:
-                        print("Person not in database")
-
+                    cv2.imwrite(f"{self.image_bus_path}{time.time()}.png", face_color)
                     cv2.rectangle(image, (startX, startY), (endX, endY), (0, 0, 255), 2)
                     last = time.time()
 
@@ -81,10 +70,6 @@ class FaceMatcher(FaceModel):
         similarity = []
         img_representation = self.model.predict(preprocess((img)))[0, :]
         s_max = math.inf
-        name_final = ""
-        code_final = ""
-        phone_number = ""
-        chat_id = ""
         for (name, code, p, chat, representation) in self.faces:
             similarity.append((name, code, p, chat,self.match(img_representation, representation[0])))
         for person in similarity:
@@ -95,9 +80,6 @@ class FaceMatcher(FaceModel):
         print(s_max)
         if s_max>25:
             return None
-        
-
-
         return final
 
     def match(self, img1_representation, img2_representation):
