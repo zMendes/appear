@@ -22,11 +22,11 @@ def preprocess(image):
     from PIL import Image
     from keras.applications.imagenet_utils import preprocess_input
 
-    if image.shape[0] != 224:
-        img = img_to_array(Image.fromarray(image).resize((224, 224)))
-    img = np.expand_dims(img, axis=0)
-    img = preprocess_input(img)
-    return img
+    if image.shape[0] != 224 or image.shape[1] != 224:
+        image = img_to_array(Image.fromarray(image).resize((224, 224)))
+    image = np.expand_dims(image, axis=0)
+    image = preprocess_input(image)
+    return image
 
 
 def adapt_array(arr):

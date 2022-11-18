@@ -6,6 +6,9 @@
 
 test.png
 *.csv
+*.jpeg
+*.png
+*.db
 *__pycache__/
 
 /src/model/
