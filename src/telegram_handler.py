@@ -1,5 +1,5 @@
 import requests
-from env import TELEGRAM_TOKEN, CHAT_ID, BOT_NAME
+from env import TELEGRAM_TOKEN, CHAT_ID
 class TelegramHandler:
     def __init__(self):
         self.token = TELEGRAM_TOKEN

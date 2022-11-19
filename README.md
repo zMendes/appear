@@ -5,6 +5,8 @@
 It's a python base solution for managing presence of people comming in and out of school classes. 
 You need a webcam or anycamera linked to the computer to be able to run.
 
+
+## ***Backend***
 ## Installation requires python 3 (Windows)
 ```python
 pip install -r requirements.txt
@@ -36,9 +38,19 @@ python src/presence_main.py
 ```
 - On terminal 2:
 ```ps
-python src/image_bus_main.py
+python src/image_bus_consumer.py
 ```
+
+***presence_main*** will create a directory called ***image_bus*** to serve as a buffer of images, in which the ***image_bus_consumer*** will read from.
 
 ### Output
 
-The ``` image_bus_main.py ``` will generate a .csv containing all identifications with their timespan, remember, an identification is considered when the mathing of an face accured (*n*) times, *n* being defined in the ``` public_env.py ``` file.
+The ``` image_bus_main.py ``` will generate a .csv containing all identifications with their datetime, remember, an identification is considered when the mathing of an face accured (*n*) times, *n* being declared in the ``` public_env.py ``` file.
+
+## ***Frontend***
+
+***{WIP}***
+
+## Contacts
+
+- João Pedro Meirelles (joaopmjm, joaomeirelles575@gmail.com)

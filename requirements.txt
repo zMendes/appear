@@ -3,5 +3,6 @@ tensorflow
 keras
 opencv-python
 matplotlib
-pillow
 imutils
+cv2
+numpy

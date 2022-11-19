@@ -1,21 +1,20 @@
-import matplotlib.pyplot as plt
+from genericpath import exists
+import os
 import cv2
-import numpy as np
 from utils import *
 from face_model import FaceModel
 from face_finder import FaceFinder
 import sqlite3
 import math
-from presence import Presence
-from telegram_handler import TelegramHandler
 import csv
 import time
 
 class PresenceManager:
     def __init__(self):
         self.camera = cv2.VideoCapture(0)
-        self.telegram = TelegramHandler()
         self.image_bus_path = "src/image_bus/"
+        if exists(self.image_bus_path) == False:
+            os.mkdir(self.image_bus_path)
 
 
     def run(self, file_path):
