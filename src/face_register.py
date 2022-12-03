@@ -6,7 +6,6 @@ import cv2
 import numpy as np
 from utils import preprocess, adapt_array, convert_array
 
-import sqlite3
 import numpy as np
 import io
 

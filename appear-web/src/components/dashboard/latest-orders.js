@@ -17,6 +17,15 @@ import {
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { SeverityPill } from '../severity-pill';
 
+var lastClass = []
+
+fetch('http://localhost:8080/')
+  .then((response) => response.json())
+  .then((data) => {
+    lastClass = data;
+  });
+
+
 const orders = [
   {
     id: uuid(),
@@ -89,10 +98,10 @@ export const LatestOrders = (props) => (
           <TableHead>
             <TableRow>
               <TableCell>
-                Matrícula
+                Aluno
               </TableCell>
               <TableCell>
-                Nome
+                Matrícula
               </TableCell>
               <TableCell sortDirection="desc">
                 <Tooltip
@@ -103,38 +112,26 @@ export const LatestOrders = (props) => (
                     active
                     direction="desc"
                   >
-                    Date
+                    Data
                   </TableSortLabel>
                 </Tooltip>
-              </TableCell>
-              <TableCell>
-                Status
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
+            {lastClass.map((person) => (
               <TableRow
                 hover
-                key={order.id}
+                key={person[0]}
               >
                 <TableCell>
-                  {order.ref}
+                  {person[0]}
                 </TableCell>
                 <TableCell>
-                  {order.customer.name}
+                  {person[1]}
                 </TableCell>
                 <TableCell>
-                  {format(order.createdAt, 'dd/MM/yyyy')}
-                </TableCell>
-                <TableCell>
-                  <SeverityPill
-                    color={(order.status === 'presente' && 'success')
-                    || (order.status === 'falta' && 'error')
-                    || 'warning'}
-                  >
-                    {order.status}
-                  </SeverityPill>
+                  {person[2]}
                 </TableCell>
               </TableRow>
             ))}

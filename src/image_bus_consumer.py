@@ -12,6 +12,8 @@ from presence_manager import FaceMatcher
 from public_env import SERVICE_BUS_BATCH_SIZE, IDENTIFICATION_MAXIMUM_TIMES, DELTATIME_BETWEEN_IDENTIFICATIONS
 from presence import Presence
 from telegram_handler import TelegramHandler
+import uuid
+import sqlite3
 
 class Identification():
     def __init__(self, code, name, timestamp):
@@ -23,13 +25,20 @@ class Identification():
 
 class ImageBusConsumer:
     def __init__(self):
+        #generate uuid
+        self.classID = str(uuid.uuid4())
         self.fm = FaceMatcher()
         self.telegram = TelegramHandler()
         self.search_dir = "src/image_bus/"
-        self.make_empty_csv("presence_list.csv")
         self.identifications = {}
+        self.con = sqlite3.connect("data.db", detect_types=sqlite3.PARSE_DECLTYPES)
+        self.con.execute(
+            f"CREATE TABLE IF NOT EXISTS LISTS(classID STRING NOT NULL, name TEXT NOT NULL, code TEXT NOT NULL, timestamp TIMESTAMP NOT NULL, PRIMARY KEY(classID, code, timestamp))"
+        )
+        self.con.execute("")
 
-    def run(self, file_path):
+
+    def run(self):
         files = list(filter(os.path.isfile, glob.glob(self.search_dir + "*.png")))
         while len(files) <= 0:
             print("Waiting for images")
@@ -63,17 +72,19 @@ class ImageBusConsumer:
             else:
                 print("Person not in database")
             os.remove(files[i])
-        with open(file_path, 'a') as f:
-            writer = csv.writer(f)
-            for person in presence_list:
-                writer.writerow([person.code, person.name, person.phone_number, person.timestamp])
-        self.run(file_path)
-        
+            
+        for person in presence_list:
+            params = (
+                self.classID,
+                person.name,
+                person.code,
+                person.timestamp
+            )
+            self.con.execute("INSERT INTO LISTS VALUES (?, ?, ?, ?)", params)
+        self.con.commit()
 
-    def make_empty_csv(self, file_path):
-        with open(file_path, 'w') as f:
-            writer = csv.writer(f)
-            writer.writerow(["code", "name", "phone_number", "timestamp"])
+
+        self.run()
 
 if __name__ == "__main__":
-    ImageBusConsumer().run("presence_list.csv")
+    ImageBusConsumer().run()
