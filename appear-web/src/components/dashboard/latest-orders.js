@@ -98,10 +98,10 @@ export const LatestOrders = (props) => (
           <TableHead>
             <TableRow>
               <TableCell>
-                Aluno
+                Matrícula
               </TableCell>
               <TableCell>
-                Matrícula
+                Aluno
               </TableCell>
               <TableCell sortDirection="desc">
                 <Tooltip
