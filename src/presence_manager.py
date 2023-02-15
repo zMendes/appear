@@ -90,6 +90,4 @@ class FaceMatcher(FaceModel):
             img1_representation, img2_representation
         )
         
-        return euclidean_distance * cosine_similarity#< self.epsilon:
-            #return True
-        #return False
+        return euclidean_distance * cosine_similarity

@@ -1,4 +1,4 @@
-/src/env.py
+/src/config.json
 /src/test_telegram.py
 /src/test_email.py
 /src/sqlite3_handler.py
@@ -14,3 +14,4 @@ test.png
 /src/model/
 /.next
 .next
+/venv

@@ -1,23 +1,12 @@
-import matplotlib.pyplot as plt
 import cv2
-from keras.models import Model, Sequential
-from keras.layers import (
-    Convolution2D,
-    ZeroPadding2D,
-    MaxPooling2D,
-    Flatten,
-    Dense,
-    Dropout,
-    Activation,
-)
-import numpy as np
-import sqlite3
-
+import json
 
 class FaceFinder:
     def __init__(self):
-        self.prototxt = "src/model/deploy.prototxt"
-        self.model = "src/model/res10_300x300_ssd_iter_140000.caffemodel"
+        with open("src/config.json") as f:
+            config = json.load(f)["model"]
+        self.prototxt = config["path_prototxt"]
+        self.model = config["path_model"]
         self.net = cv2.dnn.readNetFromCaffe(self.prototxt, self.model)
 
     def find_faces(self, image):
