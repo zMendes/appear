@@ -1,3 +1,3 @@
 python env activate
 
-pip install onnxruntime onnx pt2keras infery torchvision --quiet
+pip install numpy opencv-python onnxruntime onnx pt2keras infery torchvision --quiet

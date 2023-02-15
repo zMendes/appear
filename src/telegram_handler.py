@@ -1,9 +1,11 @@
 import requests
-from env import TELEGRAM_TOKEN, CHAT_ID
+import json
 class TelegramHandler:
     def __init__(self):
-        self.token = TELEGRAM_TOKEN
-        self.chat_id = CHAT_ID
+        with open("config.json") as f:
+            config = json.load(f)["telegram"]
+        self.token = config["token"]
+        self.chat_id = config["chat_id"]
 
     def send_message(self, message, chat_id=None, retry=True):
         url = f"https://api.telegram.org/bot{self.token}/sendMessage"
