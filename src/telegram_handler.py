@@ -2,7 +2,7 @@ import requests
 import json
 class TelegramHandler:
     def __init__(self):
-        with open("config.json") as f:
+        with open("src/config.json") as f:
             config = json.load(f)["telegram"]
         self.token = config["token"]
         self.chat_id = config["chat_id"]

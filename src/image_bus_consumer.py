@@ -67,7 +67,7 @@ class ImageBusConsumer:
                         self.telegram.send_message(f"Olá {name}, você está presente!",chat_id=chat_id)
 
                 else:
-                    self.identifications[code] = Identification(code=code, name=name, timestamp=datetime.datetime.fromtimestamp(os.path.getmtime(files[i])))
+                    self.identifications[code] = Identification(code=code, name=name, last_appearence=datetime.datetime.fromtimestamp(os.path.getmtime(files[i])))
             else:
                 print("Person not in database")
             os.remove(files[i])

@@ -1,4 +1,5 @@
 from genericpath import exists
+import json
 import os
 import cv2
 from utils import *
@@ -11,7 +12,9 @@ import time
 
 class PresenceManager:
     def __init__(self):
-        self.camera = cv2.VideoCapture(0)
+        with open("src/config.json") as f:
+            config = json.load(f)
+        self.camera = cv2.VideoCapture(config["camera_index"])
         self.image_bus_path = "src/image_bus/"
         if exists(self.image_bus_path) == False:
             os.mkdir(self.image_bus_path)
