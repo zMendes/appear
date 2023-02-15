@@ -3,7 +3,7 @@
 /src/test_email.py
 /src/sqlite3_handler.py
 /src/email_handler.py
-
+/src/config.json
 test.png
 *.csv
 *.jpeg
@@ -14,3 +14,4 @@ test.png
 /src/model/
 /.next
 .next
+/venv/
