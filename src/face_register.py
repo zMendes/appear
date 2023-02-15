@@ -21,7 +21,6 @@ class FaceRegister(FaceModel):
             f"CREATE TABLE IF NOT EXISTS FACES(name TEXT NOT NULL, code TEXT NOT NULL, phone_number TEXT, chatID TEXT NOT NULL, img array NOT NULL)"
         )
 
-
     def register(self, name, code, phone_number, chat_id):
         vgg_face_descriptor = self.setupModel()
         ff = FaceFinder()
@@ -35,7 +34,6 @@ class FaceRegister(FaceModel):
             if len(faces):
                 found_face = True
         for i in range(0, faces.shape[2]):
-
             confidence = faces[0, 0, i, 2]
             if confidence > 0.5:
                 box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
