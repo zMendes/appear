@@ -1,14 +1,18 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import  ttk
 import cv2
 import numpy as np
 from dtos import RegistrationData
 
-def CaptureImage() -> np.ndarray:
+def CaptureImage(show : bool = False) -> np.ndarray:
         cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         _, frame = cap.read()
         cap.release()
         cv2.destroyAllWindows()
+        if show:
+            cv2.imshow("frame", frame)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
         return frame
 
 class App(tk.Tk):
@@ -65,12 +69,15 @@ class App(tk.Tk):
         telegram_chat_id = ttk.Entry(self, width=30)
         telegram_chat_id.focus()
         telegram_chat_id.grid(column=1, row=3, sticky=tk.W)
+        
+        show_image_on_capture = tk.IntVar()
+        tk.Checkbutton(self, text="Show image on capture", variable=show_image_on_capture, onvalue=True, offvalue=False).grid(column=1, row=4, sticky=tk.W)
 
-        ttk.Button(self, text='Take Picture',command=lambda :self.Register(name.get(), id.get(), telegram_chat_id.get(), phone_number.get())).grid(column=2, row=0)
+        ttk.Button(self, text='Take Picture',command=lambda :self.Register(name.get(), id.get(), telegram_chat_id.get(), phone_number.get(), show_image_on_capture)).grid(column=2, row=0)
         ttk.Button(self, text='Submit',command=lambda : self.Submit()).grid(column=2, row=1)
 
-    def Register(self, name: str, id: str, telegram_chat_id: str, phone_number: str):
-        self.registration = RegistrationData(name, id, telegram_chat_id, CaptureImage(), phone_number)
+    def Register(self, name: str, id: str, telegram_chat_id: str, phone_number: str, show_image_on_capture: bool = False):
+        self.registration = RegistrationData(name, id, telegram_chat_id, CaptureImage(show_image_on_capture.get()), phone_number)
 
     def Submit(self):
         if(self.AbleToSubmit()):
