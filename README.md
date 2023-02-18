@@ -16,14 +16,14 @@ You gonna need and ``` env.py ``` with the ``` TELEGRAM_TOKEN="xpto" ``` and ```
 
 ## Running
 
-***You have 2 options for this***
+***You have 2 parts***
 
 ### Regestering Faces
 
 ```ps
 python src/register_main.py
 ```
-You'll be asked to fill the inputs bellow:
+A window will appear to you fill the following data, and take a picture (please make sure of good lighting):
 - Name: ```Ex.: John```
 - Code: ```Any Unique Identifier```
 - Phone: ```not used yet, can be blank```
