@@ -1,4 +1,3 @@
-import json
 from time import sleep
 from face_model import FaceModel
 from face_finder import FaceFinder
@@ -11,11 +10,8 @@ from utils import preprocess, adapt_array, convert_array
 
 import numpy as np
 
-
 class FaceRegister(FaceModel):
     def __init__(self):
-        with open("src/config.json") as f:
-            config = json.load(f)
         sqlite3.register_adapter(np.ndarray, adapt_array)
         sqlite3.register_converter("array", convert_array)
         self.con : sqlite3.Connection = sqlite3.connect("data.db", detect_types=sqlite3.PARSE_DECLTYPES)
@@ -34,7 +30,6 @@ class FaceRegister(FaceModel):
             return False
         for i in range(0, faces.shape[2]):
             confidence = faces[0, 0, i, 2]
-            print(confidence)
             if confidence > 0.5:
                 box = faces[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (startX, startY, endX, endY) = box.astype("int")
